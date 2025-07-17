@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Driver Job</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    html,body {
+      margin:0; padding:0; width:100vw; min-height:100vh;
+      box-sizing:border-box; font-family:'Montserrat',Arial,sans-serif;
+      background: linear-gradient(120deg,#181a23 0%, #12141a 100%);
+      overflow-x:hidden;
+    }
+    body::before {
+      content:"";
+      position:fixed; left:0;top:0;width:100vw;height:100vh;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 70vw 23vw at 90vw 9vh, #3d3f6a2c 0%, #21233000 100%),
+        radial-gradient(circle 48vw at 18vw 92vh, #25175d36 0%, #1e223000 80%),
+        radial-gradient(ellipse 55vw 13vw at 26vw 17vh, #26b1d82c 0%, #181a2300 100%);
+      opacity: .9;mix-blend-mode: lighten;
+    }
+    .container {
+      min-height:100vh; width:100vw; display:flex; flex-direction:column; align-items:center; position:relative; z-index:1;
+    }
+    .title {
+      margin-top:6vh;
+      margin-bottom:3vh;
+      font-size:2.3rem;
+      font-weight:900;
+      letter-spacing:.03em;
+      background:linear-gradient(92deg,#47d9ff 35%,#21e7c2 100%);
+      -webkit-background-clip:text;
+      color:transparent;-webkit-text-fill-color:transparent;
+      text-align:center;text-shadow:0 4px 24px #0b99ff36;
+    }
+    /* FORM */
+    .form-block {
+      background: linear-gradient(122deg,#232c41 80%, #181b24 100%);
+      border-radius: 22px;
+      box-shadow: 0 8px 40px #0e192d2a, 0 2px 8px #cfd8fd13;
+      padding: 36px 18px 28px;
+      width:95vw; max-width:400px; min-width:220px;
+      margin:0 auto; margin-bottom:4vh;
+      display:flex; flex-direction:column; align-items:center;
+      z-index:2;
+    }
+    .form-block label {
+      font-size:1.23rem;color:#7bdfff;font-weight:700;
+      margin-bottom:13px; width:100%; text-align:center;letter-spacing:.01em;
+      text-shadow:0 2px 18px #0008;
+    }
+    .form-block input {
+      width:95%; font-size:1.14rem; padding:10px 15px;
+      border-radius:10px; border:1.2px solid #22325a;
+      background:#151926; color:#fff; text-align:center;
+      font-family:inherit; font-weight:600; box-shadow:0 2px 11px #20376b32;
+      transition:box-shadow .16s;margin-bottom:19px;
+    }
+    .form-block input:focus {outline:none;box-shadow:0 0 0 2px #85c6ff;}
+    .main-btn {
+      margin-top:5px;
+      background:linear-gradient(92deg,#3643a8 35%,#0ee7b2 100%);
+      color:#fff;font-weight:800;font-size:1.17rem;border:none;
+      border-radius:13px;padding:12px 0;width:100%;
+      box-shadow:0 4px 16px #134ff777;
+      cursor:pointer;letter-spacing:.03em;
+      transition:background .15s,transform .13s;
+    }
+    .main-btn:active {background:#2867a2;transform:scale(.97);}
+    /* Cars */
+    .cars-block {
+      width:97vw;max-width:600px;display:flex;flex-direction:column;align-items:center;margin:0 auto;
+      margin-top:4vh;margin-bottom:5vh;
+    }
+    .subtitle {
+      font-size:1.35rem;font-weight:800; color:#58e3fa; margin-bottom:1.7vh;letter-spacing:.01em;text-align:center;
+      text-shadow:0 2px 14px #161f24c7;
+    }
+    .cars-list {
+      display:grid; grid-template-columns:1fr 1fr; gap:22px 12px; width:100%;justify-items:center;
+    }
+    .car-card {
+      background: linear-gradient(110deg, #181c2e 90%, #23253a 100%);
+      border-radius:16px;
+      box-shadow:0 6px 22px #0c0c2040,0 2px 6px #24115a29;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      min-width:0;max-width:170px;width:38vw;cursor:pointer;position:relative;padding:12px 5px 7px 5px;
+      transition:box-shadow .14s,transform .13s;
+      border:2.5px solid #223042;
+    }
+    .car-card:active {box-shadow:0 7px 27px #34c7fa5c;transform:scale(.98);}
+    .car-img {width:100px;height:65px;object-fit:contain;display:block;filter:drop-shadow(0 3px 14px #45d8fd4c);}
+    .car-label {font-size:1rem;font-weight:700;color:#bbfaff;margin-top:6px;text-align:center;text-shadow:0 2px 8px #001;}
+    /* Modal */
+    .modal {
+      position:fixed; left:0;top:0;width:100vw;height:100vh;
+      background:rgba(10,16,31,0.56);backdrop-filter:blur(2px);
+      display:flex;align-items:center;justify-content:center;z-index:10;
+      animation:fadeIn .24s;
+    }
+    @keyframes fadeIn {from{opacity:0;}to{opacity:1;}}
+    .modal-box {
+      background:#191d27;border-radius:23px;box-shadow:0 10px 38px #2bd4fd28,0 2px 10px #c1b2fd14;
+      padding:32px 24px 22px 24px;min-width:0;width:92vw;max-width:340px;
+      display:flex;flex-direction:column;align-items:center;animation:pop .19s;
+      border:2px solid #203344;
+    }
+    .modal-img {width:110px;height:73px;object-fit:contain;display:block;margin-bottom:17px;filter:drop-shadow(0 3px 10px #23f7f534);}
+    .modal-label {font-size:1.18rem;font-weight:800;color:#4fe6d7;text-align:center;margin-bottom:16px;}
+    .hours-wrap {width:100%;display:flex;flex-wrap:wrap;gap:8px 7px;justify-content:center;margin-bottom:14px;}
+    .hour-btn {
+      border:none;background:linear-gradient(92deg,#273974 20%,#145e48 100%);
+      color:#b5f7fd;font-size:1.13rem;font-weight:700;padding:8px 21px;
+      border-radius:9px;cursor:pointer;transition:background .14s,transform .13s;
+    }
+    .hour-btn.selected {background:linear-gradient(92deg,#1ae0bc 40%,#1e71f9 100%);color:#fff;}
+    .modal-btn {margin-top:8px;}
+    /* Loader/Done Overlay */
+    .overlay-block {
+      position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(13,19,29,0.74);backdrop-filter:blur(2px);
+      flex-direction:column;
+      animation:fadeIn .21s;
+    }
+    .loader-block {display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    .loader-ring {margin-bottom:19px;width:62px;height:62px;}
+    .loader-text {font-size:1.16rem;font-weight:900;color:#36ffd7;background:rgba(20,32,42,0.89);padding:12px 33px 12px 33px;border-radius:14px;box-shadow:0 4px 14px #1ef7f412;}
+    /* Done */
+    .done-block {
+      display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop .22s;
+    }
+    .done-bubble {
+      background:#fff;border-radius:21px;box-shadow:0 7px 28px #43f0b92c,0 0 0 7px #e0fff6;
+      display:flex;flex-direction:column;align-items:center;
+      padding:31px 27px 19px 27px;min-width:170px;max-width:95vw;
+      border:2.5px solid #22ffd2;
+      animation:pop .17s;
+    }
+    .big-check {background:linear-gradient(135deg,#1be38d 65%,#1fb6fd 100%);
+      border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 7px 32px #43f0b92c;margin-bottom:13px;}
+    .big-check svg {width:34px;height:34px;}
+    .success-text {font-size:1.13rem;font-weight:900;color:#19b88a;text-align:center;letter-spacing:.01em;}
+    @keyframes pop {0%{transform:scale(.89);opacity:.18;}100%{transform:scale(1);opacity:1;}}
+    @media (max-width:600px){
+      .title {font-size:1.13rem;}
+      .form-block {padding:20px 6px 12px 6px;}
+      .modal-box {padding:12px 3px 10px 3px;}
+      .modal-img {width:78px;height:47px;}
+      .done-bubble {padding:13px 5vw 10px 5vw;}
+      .loader-text {font-size:1.03rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">driver job</div>
+    <!-- Step 1: Form -->
+    <form class="form-block" id="formBlock" autocomplete="off">
+      <label for="name">Name</label>
+      <input type="text" id="name" maxlength="22" placeholder="Enter your name" required autocomplete="off">
+      <label for="exp">Driving experience (years)</label>
+      <input type="number" id="exp" min="0" max="99" maxlength="2" placeholder="Years" required autocomplete="off">
+      <button class="main-btn" id="formBtn" type="submit">Continue</button>
+    </form>
+    <!-- Step 2: Cars -->
+    <div class="cars-block" id="carsBlock" style="display:none;">
+      <div class="subtitle">Which car do you want to drive?</div>
+      <div class="cars-list" id="carsList"></div>
+    </div>
+  </div>
+  <!-- Modal for hours -->
+  <div class="modal" id="modal" style="display:none;">
+    <div class="modal-box">
+      <img id="modalCarImg" class="modal-img" src="">
+      <div id="modalCarLabel" class="modal-label"></div>
+      <div style="font-weight:600;color:#4fe6d7;margin-bottom:7px;">How many hours do you want to work?</div>
+      <div class="hours-wrap" id="hoursWrap"></div>
+      <button class="main-btn modal-btn" id="confirmBtn" type="button" disabled>Confirm</button>
+    </div>
+  </div>
+  <!-- Loader/Done overlay -->
+  <div id="overlayRoot"></div>
+  <script>
+    // --- CAR DATA ---
+    const cars = [
+      {img:'https://i.ibb.co/c7b7SJ1/pngimg-com-rolls-royce-PNG18.png', label:'Rolls Royce'},
+      {img:'https://i.ibb.co/C3RNkGNP/pngimg-com-rolls-royce-PNG50.png', label:'Rolls Royce (Red)'},
+      {img:'https://i.ibb.co/JW9RqCFM/pngimg-com-bentley-PNG53.png', label:'Bentley'},
+      {img:'https://i.ibb.co/v4sWKq79/pngimg-com-cadillac-PNG45.png', label:'Cadillac'},
+      {img:'https://i.ibb.co/tPYgvzQZ/mercedes-benz-s-class-mercedes-maybach-car-png-favpng-a8-ZPq-AYb-Gn-C9q-Npns-E0y-XSX0-Y.png', label:'Mercedes-Maybach'},
+      {img:'https://i.ibb.co/5hP0rRTc/5ea25623d439bd21109bde56bc3e5b87.png', label:'AMG'},
+    ];
+    // --- FORM SUBMIT ---
+    const formBlock = document.getElementById('formBlock');
+    const carsBlock = document.getElementById('carsBlock');
+    formBlock.onsubmit = function(e){
+      e.preventDefault();
+      formBlock.style.display = 'none';
+      carsBlock.style.display = '';
+      document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
+    };
+    // --- CARS ---
+    const carsList = document.getElementById('carsList');
+    cars.forEach((c,i)=>{
+      let el = document.createElement('div');
+      el.className = 'car-card';
+      el.innerHTML = `<img src="${c.img}" class="car-img"><div class="car-label">${c.label}</div>`;
+      el.onclick = ()=> openModal(c);
+      carsList.appendChild(el);
+    });
+    // --- MODAL LOGIC ---
+    const modal = document.getElementById('modal');
+    const modalCarImg = document.getElementById('modalCarImg');
+    const modalCarLabel = document.getElementById('modalCarLabel');
+    const hoursWrap = document.getElementById('hoursWrap');
+    const confirmBtn = document.getElementById('confirmBtn');
+    let selectedHour = null;
+    let hours = [4,6,8,10,12];
+    function openModal(car){
+      modalCarImg.src = car.img;
+      modalCarLabel.textContent = car.label;
+      hoursWrap.innerHTML = '';
+      selectedHour = null;
+      confirmBtn.disabled = true;
+      hours.forEach(h=>{
+        let btn = document.createElement('button');
+        btn.type = "button";
+        btn.className = 'hour-btn';
+        btn.textContent = h + " h";
+        btn.onclick = ()=>{
+          Array.from(hoursWrap.children).forEach(b=>b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedHour = h;
+          confirmBtn.disabled = false;
+        };
+        hoursWrap.appendChild(btn);
+      });
+      modal.style.display = 'flex';
+    }
+    modal.onclick = (e)=>{ if(e.target===modal) modal.style.display='none'; }
+    // --- CONFIRM ---
+    confirmBtn.onclick = ()=>{
+      modal.style.display='none';
+      showLoader();
+    };
+    // --- LOADER & DONE ---
+    function showLoader(){
+      document.getElementById('overlayRoot').innerHTML = `
+        <div class="overlay-block" id="loaderOverlay">
+          <div class="loader-block">
+            <div class="loader-ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="24" fill="none" stroke="#343d62" stroke-width="8" opacity="0.25"/><circle cx="31" cy="31" r="24" fill="none" stroke="#36ffd7" stroke-width="8" stroke-linecap="round" stroke-dasharray="150" stroke-dashoffset="35"><animateTransform attributeName="transform" type="rotate" values="0 31 31;360 31 31" dur="1.05s" repeatCount="indefinite"/></circle></svg>
+            </div>
+            <div class="loader-text">Processing...</div>
+          </div>
+        </div>`;
+      setTimeout(showDone, 1550);
+    }
+    function showDone(){
+      document.getElementById('overlayRoot').innerHTML = `
+        <div class="overlay-block">
+          <div class="done-block">
+            <div class="done-bubble">
+              <div class="big-check">
+                <svg viewBox="0 0 50 50">
+                  <polyline points="14,27 24,37 39,14" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="success-text">Your application has been accepted.</div>
+            </div>
+          </div>
+        </div>
+      `;
+      setTimeout(()=>{
+        document.getElementById('overlayRoot').innerHTML='';
+        formBlock.style.display='';
+        carsBlock.style.display='none';
+      },2200);
+    }
+  </script>
+</body>
+</html>
